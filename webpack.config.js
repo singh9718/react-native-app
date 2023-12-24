@@ -12,19 +12,31 @@ const compileNodeModules = [
 ].map((moduleName) => path.resolve(appDirectory, `node_modules/${moduleName}`));
 
 const babelLoaderConfiguration = {
-  test: /\.js$|tsx?$/,
+  test: /\.(js|tsx?)$/,
   // Add every directory that needs to be compiled by Babel during the build.
   include: [
     path.resolve(__dirname, 'index.web.js'), // Entry to your application
-    path.resolve(__dirname, 'App.web.tsx'), // Change this to your main App file
-    path.resolve(__dirname, 'src'),
+    path.resolve(__dirname, 'App.web.js'), // Change this to your main App file
+    path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
+    path.resolve(__dirname, 'App.js'),
+    path.resolve(__dirname, 'screens/Home/HomeScreen.js'),
+    path.resolve(__dirname, 'screens/Logout/Logout.js'),
+    // path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
+    // path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
+    // path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
+    // path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
+    // path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
+    // path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
+    // path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
+    // path.resolve(__dirname, 'screens/Login/LoginScreen.js'),
     ...compileNodeModules,
   ],
+
   use: {
     loader: 'babel-loader',
     options: {
       cacheDirectory: true,
-      presets,
+      presets: ['@babel/preset-react', '@babel/preset-env', ...presets],
       plugins: ['react-native-web'],
     },
   },
@@ -49,6 +61,12 @@ const imageLoaderConfiguration = {
   },
 };
 
+const cssLoaderConfiguration = {
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader'],
+};
+
+
 module.exports = {
   entry: {
     app: path.join(__dirname, 'index.web.js'),
@@ -69,6 +87,7 @@ module.exports = {
       babelLoaderConfiguration,
       imageLoaderConfiguration,
       svgLoaderConfiguration,
+      cssLoaderConfiguration,
     ],
   },
   plugins: [
@@ -77,7 +96,6 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      // See: https://github.com/necolas/react-native-web/issues/349
       __DEV__: JSON.stringify(true),
     }),
   ],

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
-import Toast from 'react-native-toast-message';
+// import Toast from 'react-native-toast-message';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
